@@ -98,6 +98,31 @@ $$cov(v_s, v_t) = \sigma^2_w$$
 Else:
 $$cov(v_s, v_t) = 0$$
 
+Now plot it:
+```{r}
+lags <- -10:10
+
+# Compute theoretical ACF values
+acf_values <- sapply(lags, function(h) {
+  if (h == 0) {
+    return(6)
+  } else if (abs(h) == 1) {
+    return(4)
+  } else if (abs(h) == 2) {
+    return(1)
+  } else {
+    return(0)
+  }
+})
+
+# Plot
+plot(lags, acf_values, type="h", lwd=2, col="blue", ylim=c(0, 6),
+     main="Theoretical ACF of x_t = w_{t-1} + 2w_t + w_{t+1}",
+     xlab="Lag (h)", ylab="ACF")
+abline(h=0, col="black")
+points(lags, acf_values, pch=16, col="blue")
+```
+
 # 1.15
 $$E[x_t] = E[w_tw_{t-1}]$$
 
