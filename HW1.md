@@ -1,0 +1,132 @@
+# 1.6
+### (a)
+$$E[x_t] = \beta_1 + \beta_2 t$$
+
+The mean is not constant, so this is not stationary.
+
+### (b)
+$$y_t = x_t - x_{t - 1}$$
+$$y_t = \beta_1 + \beta_2 t + w_t - \beta_1 - \beta_2 (t - 1) - w_{t - 1}$$
+$$y_t = \beta_2 + w_t - w_{t - 1}$$
+
+$$E[y_t] = E[\beta_2] + E[w_t] - E[w_{t - 1}]$$
+$$E[y_t] = \beta_2$$
+
+The mean is constant.
+
+$$Var[y_t] = Var[\beta_2 + w_t - w_{t-1}]$$
+$$Var[y_t] = Var[w_t - w_{t-1}]$$
+$$Var[y_t] = Var[w_t] + Var[w_{t-1}] - 2Cov[w_t, w_{t-1}]$$
+$$Var[y_t] = Var[w_t] + Var[w_{t-1}]$$
+$$Var[y_t] = 2\sigma^2_w$$
+
+The variance is constant.
+
+Now solve for autocovariance:
+$$Cov(y_t, y_{t+h})$$
+
+When $h=0$:
+$$Cov(y_t, y_{t+h}) = Var(y_t)$$
+$$Cov(y_t, y_{t+h}) = 2\sigma^2_w$$
+
+When $h=1$:
+$$Cov(y_t, y_{t+h}) = Cov(\beta_2 + w_t - w_{t - 1}, \beta_2 + w_{t+1} - w_t)$$
+$$Cov(y_t, y_{t+h}) = Cov(w_t - w_{t - 1}, w_{t+1} - w_t)$$
+$$Cov(y_t, y_{t+h}) = Cov(w_t - w_{t - 1}, w_{t+1} - w_t)$$
+$$Cov(y_t, y_{t+h}) = -Var(w_t)$$
+$$Cov(y_t, y_{t+h}) = -\sigma^2_w$$
+
+Otherwise:
+$$Cov(y_t, y_{t+h}) = 0$$
+
+The process is stationary because the mean and variance are constant, and the autocovariance only depends on $h$.
+
+### (c)
+Show that the $E[v_t] = \beta_1 + \beta_2t$:
+$$E[v_t] = E[\frac{1}{2q+1}\sum_{j=-q}^q x_{t - j}]$$
+$$E[v_t] = E[\frac{1}{2q+1}\sum_{j=-q}^q (\beta_1 + \beta_2(t-j) + w_{t-j})]$$
+$$E[v_t] = \frac{1}{2q+1}\sum_{j=-q}^q (\beta_1 + \beta_2(t-j))$$
+$$E[v_t] = \frac{1}{2q+1}\left[(2q+1)(\beta_1 + \beta_2t) - \beta_2\sum_{j=-q}^q j\right]$$
+
+Note that the following is a symmetric sum and cancels out:
+$$\sum_{j=-q}^q j$$
+
+Then:
+$$E[v_t] = \frac{1}{2q+1}(2q+1)(\beta_1 + \beta_2t)$$
+$$E[v_t] = \beta_1 + \beta_2t$$
+
+Now solve for autocovariance:
+$$Cov(v_t, v_{t+h}) = Cov(\frac{1}{2q+1}\sum_{j=-q}^q x_{t - j}, \frac{1}{2q+1}\sum_{j=-q}^q x_{t + h - j})$$
+$$Cov(v_t, v_{t+h}) = Cov(\frac{1}{2q+1}\sum_{j=-q}^q w_{t - j}, \frac{1}{2q+1}\sum_{j=-q}^q w_{t + h - j})$$
+$$Cov(v_t, v_{t+h}) = \frac{1}{(2q+1)^2}\sum_{j=-q}^q\sum_{k=-q}^qCov(w_{t - j}, w_{t + h - k})$$
+
+When $j + h = k$:
+$$Cov(w_{t - j}, w_{t + h - k}) = 1$$
+
+Else:
+$$Cov(w_{t - j}, w_{t + h - k}) = 0$$
+
+Then:
+$$Cov(v_t, v_{t+h}) = \frac{1}{(2q+1)^2}\sum_{j=-q}^q \sigma^2_w * 1_{\{-q \leq j + h \leq q \}}$$
+
+We know that the number of valid $j+h$ is:
+$$2q + 1 - |h|$$
+
+Therefore:
+$$Cov(v_t, v_{t+h}) = \frac{2q + 1 - |h|}{(2q+1)^2}\sigma^2_w$$
+
+# 1.7
+$$cov(v_s, v_t) = cov\left\{w_{s-1}+2w_s+w_{s+1}, w_{t-1}+2w_t+w_{t+1}\right\}$$
+
+When $s = t$:
+$$cov(v_s, v_t) = cov\left\{w_{t-1}+2w_t+w_{t+1}, w_{t-1}+2w_t+w_{t+1}\right\}$$
+$$cov(v_s, v_t) = var(w_{t-1})+var(2w_t)+var(w_{t+1})$$
+$$cov(v_s, v_t) = var(w_{t-1})+4var(w_t)+var(w_{t+1})$$
+$$cov(v_s, v_t) = 6\sigma^2_w$$
+
+When $|s - t| = 1$:
+$$cov(v_s, v_t) = cov\left\{w_{t}+2w_{t+1}+w_{t+2}, w_{t-1}+2w_t+w_{t+1}\right\}$$
+$$cov(v_s, v_t) = cov(w_t, 2w_t) + cov(2w_{t+1}, w_{t+1})$$
+$$cov(v_s, v_t) = 2cov(w_t, w_t) + 2cov(w_{t+1}, w_{t+1})$$
+$$cov(v_s, v_t) = 4\sigma^2_w$$
+
+When $|s - t| = 2$:
+$$cov(v_s, v_t) = cov\left\{w_{t+1}+2w_{t+2}+w_{t+3}, w_{t-1}+2w_t+w_{t+1}\right\}$$
+$$cov(v_s, v_t) = cov\left\{w_{t+1}, w_{t+1}\right\}$$
+$$cov(v_s, v_t) = \sigma^2_w$$
+
+Else:
+$$cov(v_s, v_t) = 0$$
+
+# 1.15
+$$E[x_t] = E[w_tw_{t-1}]$$
+
+Since white noise is independent:
+$$E[x_t] = E[w_t]E[w_{t-1}]$$
+
+Given the expectation of white noise:
+$$E[x_t] = 0$$
+
+Now we want to find:
+$$Cov(x_t, x_{t+h})$$
+
+When $h = 0$:
+$$Cov(x_t, x_{t+h}) = Cov(w_tw_{t - 1}, w_tw_{t - 1})$$
+$$Cov(x_t, x_{t+h}) = Var(w_tw_{t - 1})$$
+$$Cov(x_t, x_{t+h}) = E[(w_tw_{t-1})^2] - E[w_tw_{t-1}]^2$$
+$$Cov(x_t, x_{t+h}) = E[w_t^2w_{t-1}^2] - (E[w_t]E[w_{t-1}])^2$$
+$$Cov(x_t, x_{t+h}) = E[w_t^2]E[w_{t-1}^2]$$
+$$Cov(x_t, x_{t+h}) = (E[w_t^2] - E[w_t]^2)(E[w_{t-1}^2] - E[w_{t-1}]^2)$$
+$$Cov(x_t, x_{t+h}) = Var[w_t]Var[w_{t-1}]$$
+$$Cov(x_t, x_{t+h}) = \sigma^4_w$$
+
+When $h = \pm 1$:
+$$Cov(x_t, x_{t+h}) = Cov(w_tw_{t - 1}, w_tw_{t + 1})$$
+$$Cov(x_t, x_{t+h}) = E[w_tw_{t - 1}w_tw_{t + 1}] - E[w_tw_{t - 1}]E[w_tw_{t + 1}]$$
+$$Cov(x_t, x_{t+h}) = E[w_t^2]E[w_{t - 1}]E[w_{t + 1}] - E[w_t]^2E[w_{t - 1}]E[w_{t + 1}]$$
+$$Cov(x_t, x_{t+h}) = 0$$
+
+Else:
+$$Cov(x_t, x_{t+h}) = 0$$
+
+The process is stationary because the mean and variance are constant, and the autocovariance only depends on $h$.
