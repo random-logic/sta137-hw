@@ -1,0 +1,97 @@
+# 1.19
+### (a)
+$$E[x_t] = \mu + E[w_t] + \theta E[w_{t - 1}] = \mu$$
+
+### (b)
+$$\gamma_x(h) = Cov[x_{t + h}, x_t]$$
+$$\gamma_x(h) = Cov[\mu + w_{t + h} + \theta w_{t + h - 1}, \mu + w_{t} + \theta w_{t - 1}]$$
+$$\gamma_x(h) = Cov[w_{t + h} + \theta w_{t + h - 1}, w_{t} + \theta w_{t - 1}]$$
+$$\gamma_x(h) = E[(w_{t + h} + \theta w_{t + h - 1})(w_{t} + \theta w_{t - 1})]$$
+$$\gamma_x(h) = E[w_{t + h}w_{t} + \theta w_{t + h}w_{t - 1} + \theta w_{t + h - 1}w_{t} + \theta w_{t + h - 1}\theta w_{t - 1}]$$
+
+When $h = 0$:
+$$\gamma_x(h) = E[w_{t}w_{t} + \theta w_{t}w_{t - 1} + \theta w_{t - 1}w_{t} + \theta w_{t - 1}\theta w_{t - 1}]$$
+$$\gamma_x(h) = E[w_{t}w_{t} + \theta w_{t - 1}\theta w_{t - 1}]$$
+$$\gamma_x(h) = (1 + \theta^2)\sigma_w^2$$
+
+When $h = 1$:
+$$\gamma_x(h) = E[w_{t + 1}w_{t} + \theta w_{t + 1}w_{t - 1} + \theta w_{t}w_{t} + \theta w_{t}\theta w_{t - 1}]$$
+$$\gamma_x(h) = E[\theta w_{t}w_{t}]$$
+$$\gamma_x(h) = \theta\sigma_w^2$$
+
+When $h = -1$:
+$$\gamma_x(h) = E[w_{t -1}w_{t} + \theta w_{t -1}w_{t - 1} + \theta w_{t -2}w_{t} + \theta w_{t -2}\theta w_{t - 1}]$$
+$$\gamma_x(h) = E[\theta w_{t-1}w_{t-1}]$$
+$$\gamma_x(h) = \theta\sigma_w^2$$
+
+Else:
+$$\gamma_x(h) = 0$$
+
+### (c)
+Using (a), we know that $E[x_t]$ is independent of $t$. Using (b), we know that $\gamma(h)$ only depends on lag $h$. Therefore, $x_t$ is stationary for all values of $\theta \in \mathbb{R}$.
+
+### (d)
+From 1.35, we know that:
+$$Var[\bar x] = \frac{1}{n} \sum_{h = -n}^n \left(1 - \frac{|h|}{n}\right) \gamma_x(h)$$
+
+Since $\gamma_x(h) \neq 0$ only for $h \in [-1, 1]$:
+$$Var[\bar x] = \frac{1}{n} \sum_{h = -1}^1 \left(1 - \frac{|h|}{n}\right) \gamma_x(h)$$
+$$Var[\bar x] = \frac{1}{n} \left[\left(1 - \frac{1}{n}\right) \gamma_x(-1) + \gamma_x(0) + \left(1 - \frac{1}{n}\right) \gamma_x(1)\right]$$
+$$Var[\bar x] = \frac{1}{n} \left[2\left(1 - \frac{1}{n}\right) \theta\sigma_w^2 + (1 + \theta^2)\sigma_w^2\right]$$
+
+(i) When $\theta = 1$:
+$$Var[\bar x] = \frac{1}{n} \left[2\left(1 - \frac{1}{n}\right) \sigma_w^2 + 2\sigma_w^2\right]$$
+$$Var[\bar x] = \frac{\sigma_w^2}{n} \left[2 - \frac{2}{n} + 2\right]$$
+$$Var[\bar x] = \frac{\sigma_w^2}{n} \left[4 - \frac{2}{n}\right]$$
+
+(ii) When $\theta = 0$:
+$$Var[\bar x] = \frac{\sigma_w^2}{n}$$
+
+(iii) When $\theta = -1$:
+$$Var[\bar x] = \frac{1}{n} \left[2\left(1 - \frac{1}{n}\right)(-1)\sigma_w^2 + 2\sigma_w^2\right]$$
+$$Var[\bar x] = \frac{2\sigma_w^2}{n} \left[\left(1 - \frac{1}{n}\right)(-1) + 1\right]$$
+$$Var[\bar x] = \frac{2\sigma_w^2}{n} \left[-1 + \frac{1}{n} + 1\right]$$
+$$Var[\bar x] = \frac{2\sigma_w^2}{n^2}$$
+
+### (e)
+When $\theta$ is positive, observations are positively correlated (when one is high, the next is likely to be high), making new data points not as informative and requiring more data points for a more precise estimate. From part (d), we can see that when $\theta = 1$, $Var[\bar x]$ decays the slowest as $n$ increases compared to other values of $\theta$.
+
+When $\theta = 0$, observations are independent. From part (d), we can see that when $\theta = 0$, $Var[\bar x]$ decays faster than when $\theta = 1$ but slower than when $\theta = -1$ as as $n$ increases.
+
+When $\theta$ is negative, observations are negatively correlated (when one is high, the next is likely to be low), creating a natural balancing around the mean and requiring less data points for a precise estimate. From part (d), we can see that when $\theta = -1$, $Var[\bar x]$ decays the fastest as as $n$ increases compared to other values of $\theta$. Therefore, when setting $\theta = -1$, we will get the most accurate estimates of $\mu$.
+
+# 1.21
+### (a)
+```{r}
+# Set seed for reproducibility
+set.seed(123)
+
+# Parameters
+n <- 500
+
+# Simulate MA(3) process
+# We sample 2 more points because the endpoints have no moving average
+w <- rnorm(n + 2, 0, 1)
+v <- filter(w, sides = 2, filter = rep(1 / 3, 3))
+
+# Compute sample ACF
+acf(v, 20, na.action = na.omit)
+```
+
+From Example 1.20, we can see that $\rho(h) \neq 0$ only for 3 values of h. Our sample ACF closely resembles that, as only the first 3 lags are within bounds.
+
+### (b)
+```{r}
+# Parameters
+n <- 50
+
+# Simulate MA(3) process
+# We sample 2 more points because the endpoints have no moving average
+w <- rnorm(n + 2, 0, 1)
+v <- filter(w, sides = 2, filter = rep(1 / 3, 3))
+
+# Compute sample ACF
+acf(v, 20, na.action = na.omit)
+```
+
+As $n$ is very low, the sample ACF may not be an accurate representation of the true ACF. The third lag appears to be on the border when in reality the actual ACF is within bounds.
