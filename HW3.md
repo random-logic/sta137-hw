@@ -24,7 +24,7 @@ Find which $\theta$ results in minimum and maximum values of $\rho_x(1)$:
 $$\frac{\delta \rho_x(1)}{\delta \theta} = \frac{\theta}{1 + \theta^2}$$
 $$\frac{\delta \rho_x(1)}{\delta \theta} = \frac{1-\theta^2}{(1 + \theta^2)^2}$$
 
-Set $\frac{\delta \rho_x(1)}{\delta \theta} = 0$, then the minimum and maximum values are at:
+Set $\frac{\delta \rho_x(1)}{\delta \theta} = 0$, then the maximum and minimum values are at:
 $$\theta = \pm 1$$
 
 At $\theta = 1$:
@@ -126,8 +126,6 @@ $$
 \phi(B)\psi(B) = \theta(B)
 $$
 
-TODO: double check understanding of the below
-
 In time-domain convolution, this gives the recursion:
 
 $$
@@ -152,10 +150,6 @@ Then recursively compute:
 - $\psi_4 = \psi_3 - 0.5 \psi_2 = -0.5 + 0.25 = -0.25$
 - etc.
 
----
-
-## General Recursive Formula
-
 The coefficients follow the second-order linear recurrence:
 
 $$
@@ -165,10 +159,6 @@ $$
 \psi_j = \psi_{j-1} - 0.5 \psi_{j-2}, & j \geq 2
 \end{cases}
 $$
-
----
-
-## Final Representation
 
 The causal representation of the process is:
 
