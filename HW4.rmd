@@ -1,0 +1,128 @@
+# 1
+Using the difference equation from lecture:
+$$\gamma(h) - \phi_1 \gamma(h - 1) - ... - \phi_p \gamma (h - p) = 0$$
+$$h \geq max \{ p, q + 1 \}$$
+
+Apply:
+$$h \geq max \{ 1, 1 + 1 \} = 2$$
+$$\gamma(h) - \phi \gamma(h - 1) = 0$$
+$$\gamma(h) = c * \phi^h$$
+
+When $h = 0$:
+$$\gamma(0) - \phi \gamma(1) = \sigma^2 \sum_{j = 0}^1 \theta_j \psi_j$$
+$$\gamma(0) - \phi \gamma(1) = \sigma^2 (\psi_0 + \theta \psi_1)$$
+
+When $h = 1$:
+$$\gamma(1) - \phi \gamma(0) = \sigma^2 \sum_{j = 1}^1 \theta_j \psi_{j - 1}$$
+$$\gamma(1) - \phi \gamma(0) = \sigma^2 \theta \psi_{0}$$
+
+The causal representation is:
+$$x_t = \sum_{j = 0}^\infty \psi_j w_{t - j}$$
+
+Using the method of matching coefficients:
+$$x_t = w_t + (\phi + \theta) \sum_{j = 1}^\infty \phi^{j - 1} w_{t - j}$$
+
+Then:
+$$\psi_0 = 1$$
+$$\psi_1 = \phi + \theta$$
+$$\gamma(0) - \phi \gamma(1) = \sigma^2 (1 + \theta (\theta + \phi))$$
+$$\gamma(1) - \phi \gamma(0) = \sigma^2 \theta$$
+
+Solve for $\gamma(0)$:
+$$\gamma(1) = \sigma^2 \theta + \phi \gamma(0)$$
+$$\gamma(0) - \phi (\sigma^2 \theta + \phi \gamma(0)) = \sigma^2 (1 + \theta (\theta + \phi))$$
+$$\gamma(0) - \phi \sigma^2 \theta - \phi^2 \gamma(0) = \sigma^2 + \sigma^2 \theta (\theta + \phi)$$
+$$\gamma(0) - \phi^2 \gamma(0) = \sigma^2 + \sigma^2 \theta^2 + \sigma^2 \theta \phi + \phi \sigma^2 \theta$$
+$$(1 - \phi^2) \gamma(0) = \sigma^2 + \sigma^2 \theta^2 + 2 \phi \sigma^2 \theta$$
+$$(1 - \phi^2) \gamma(0) = \sigma^2(1 + \theta^2 + 2 \phi \theta)$$
+$$\gamma(0) = \sigma^2 \frac{1 + \theta^2 + 2 \phi \theta}{(1 - \phi^2)}$$
+$$\gamma(0) = \sigma^2 \frac{1 - \phi^2 + \phi^2 + \theta^2 + 2 \phi \theta}{1 - \phi^2}$$
+$$\gamma(0) = \sigma^2 \frac{1 - \phi^2 + (\phi + \theta)^2}{1 - \phi^2}$$
+$$\gamma(0) = \sigma^2 \left(1 + \frac{(\phi + \theta)^2}{1 - \phi^2}\right)$$
+
+Now solve for $\gamma(1)$:
+$$\gamma(1) = \sigma^2\theta + \phi \gamma(0)$$
+$$\gamma(1) = \sigma^2\theta + \phi \sigma^2 \left(1 + \frac{(\phi + \theta)^2}{1 - \phi^2}\right)$$
+$$\gamma(1) = \sigma^2 \left(\theta + \phi \left(1 + \frac{(\phi + \theta)^2}{1 - \phi^2}\right)\right)$$
+$$\gamma(1) = \sigma^2 \left(\theta + \phi + \phi \frac{(\phi + \theta)^2}{1 - \phi^2}\right)$$
+
+Now solve for $\gamma(h)$ when $h \geq 2$:
+$$\gamma(1) = c \phi$$
+$$c = \frac{\gamma(1)}{\phi}$$
+$$\gamma(h) = \phi^h * \frac{\gamma(1)}{\phi} = \gamma(1) \phi^{h - 1}$$
+
+Now solve for $\rho(h)$:
+$$\rho(h) = \frac{\gamma(h)}{\gamma(0)}$$
+
+When $h = 0$:
+$$\rho(0) = 1$$
+
+When $h \geq 1$:
+$$\rho(h) = \frac{\gamma(h)}{\gamma(0)}$$
+$$\rho(h) = \frac{\gamma(1)\phi^{h - 1}}{\gamma(0)}$$
+$$\rho(h) = \phi^{h - 1}\frac{\sigma^2 \left(\theta + \phi + \phi \frac{(\phi + \theta)^2}{1 - \phi^2}\right)}{\sigma^2 \left(1 + \frac{(\phi + \theta)^2}{1 - \phi^2}\right)}$$
+$$\rho(h) = \phi^{h - 1}\frac{\theta + \phi + \phi \frac{(\phi + \theta)^2}{1 - \phi^2}}{1 + \frac{(\phi + \theta)^2}{1 - \phi^2}}$$
+$$\rho(h) = \phi^{h - 1}\frac{(\theta + \phi)(1 - \phi^2) + \phi (\phi + \theta)^2}{1 - \phi^2 + (\phi + \theta)^2}$$
+$$\rho(h) = \phi^{h - 1}\frac{\theta + \phi - \phi^2\theta - \phi^3 + \phi (\phi^2 + 2\phi\theta + \theta^2)}{1 - \phi^2 + \phi^2 + 2\phi\theta + \theta^2}$$
+$$\rho(h) = \phi^{h - 1}\frac{\theta + \phi - \phi^2\theta - \phi^3 + \phi^3 + 2\phi^2\theta + \phi\theta^2}{1 + 2\phi\theta + \theta^2}$$
+$$\rho(h) = \phi^{h - 1}\frac{\theta + \phi + \phi^2\theta + \phi\theta^2}{1 + 2\phi\theta + \theta^2}$$
+$$\rho(h) = \phi^{h - 1}\frac{(\theta + \phi)(1 + \phi\theta)}{1 + 2\phi\theta + \theta^2}$$
+
+# 2
+When $\theta = 0$:
+$$\rho(0) = 1$$
+$$\rho(h) = \phi^{h - 1}\frac{\phi}{1};\ h \geq 1$$
+$$\rho(h) = \phi^{h};\ h \geq 1$$
+
+This matches equation (3.8).
+
+# 3
+When $\phi = 0$:
+$$\rho(0) = 1$$
+$$\rho(1) = \frac{\theta}{1 + \theta^2}$$
+$$\rho(h) = 0;\ h > 1$$
+
+This matches example (3.5).
+
+# 4
+```{r}
+# Load required library
+library(forecast)
+
+# Set parameters
+phi <- 0.6
+theta <- 0.9
+n <- 1000  # sample size
+
+# Simulate ARMA(1,1) process
+set.seed(123)
+x <- arima.sim(n = n, list(ar = phi, ma = theta))
+
+# Plot sample ACF for lags 0–5
+acf(x, lag.max = 5, main = "Sample ACF")
+
+# Compute and print theoretical ACF for comparison
+sigma2 <- 1
+gamma0 <- sigma2 * (1 + theta^2 + 2 * phi * theta) / (1 - phi^2)
+gamma1 <- phi * gamma0 + theta * sigma2
+rho1 <- gamma1 / gamma0
+
+# Generate theoretical ACF values
+rho <- numeric(6)
+rho[1] <- 1
+rho[2] <- rho1
+for (h in 3:6) {
+  rho[h] <- phi * rho[h - 1]
+}
+
+# Create data frame of theoretical ACF values
+lags <- 0:5
+theoretical_acf_values <- data.frame(
+  Lag = lags,
+  Theoretical_ACF = round(rho, 4)
+)
+```
+
+`r knitr::kable(theoretical_acf_values, caption = "Theoretical ACF Values")`
+
+There is not much difference between the sample ACF values and the theoretical ACF values, when $n$ is large.
